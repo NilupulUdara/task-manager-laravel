@@ -11,7 +11,8 @@ Route::get('/', function () {
 Route::resource('tasks', TaskController::class)->middleware('auth');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $tasks = Auth::user()->tasks()->latest()->get();
+    return view('dashboard', compact('tasks'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
